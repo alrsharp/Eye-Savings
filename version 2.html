@@ -1,0 +1,2080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EyeSavings Awareness Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.8/countUp.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #3498db;
+      --primary-dark: #2980b9;
+      --secondary: #1abc9c;
+      --accent: #e74c3c;
+      --light: #f8f9fa;
+      --dark: #2c3e50;
+      --success: #2ecc71;
+      --warning: #f39c12;
+      --danger: #e74c3c;
+      --gray: #ecf0f1;
+      --dark-gray: #95a5a6;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+    }
+    
+    /* Header styling */
+    header {
+      background: linear-gradient(135deg, #2980b9, #6dd5fa, #2980b9);
+      background-size: 200% 200%;
+      animation: gradientBG 15s ease infinite;
+      color: white;
+      padding: 100px 0 50px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255, 255, 255, 0.1)" d="M0,224L48,208C96,192,192,160,288,160C384,160,480,192,576,197.3C672,203,768,181,864,181.3C960,181,1056,203,1152,208C1248,213,1344,203,1392,197.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+      background-position: bottom;
+      background-repeat: no-repeat;
+      background-size: cover;
+      opacity: 0.5;
+    }
+    
+    header h1 {
+      font-size: 3.5rem;
+      margin-bottom: 5px;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      letter-spacing: -1px;
+    }
+    
+    header h1 span {
+      color: var(--secondary);
+    }
+    
+    header p {
+      font-size: 1.4rem;
+      max-width: 800px;
+      margin: 0 auto 40px;
+      font-weight: 300;
+      line-height: 1.4;
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+    }
+    
+    .header-stats {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 25px 35px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      min-width: 200px;
+    }
+    
+    .stat-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stat-box .number {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: white;
+      line-height: 1;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .stat-box .label {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+    
+    /* Navigation styling */
+    nav {
+      background-color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      padding: 15px 0;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo i {
+      margin-right: 8px;
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    
+    nav ul li a {
+      display: block;
+      padding: 20px;
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    
+    nav ul li a:hover {
+      color: var(--primary);
+    }
+    
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 3px;
+      background-color: var(--primary);
+      transition: width 0.3s ease;
+    }
+    
+    nav ul li a:hover::after {
+      width: 60%;
+    }
+    
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--dark);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    /* Section styling */
+    section {
+      margin: 60px 0;
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    section::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+    }
+    
+    h2 {
+      color: var(--dark);
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--gray);
+      font-size: 2rem;
+      font-weight: 600;
+      position: relative;
+    }
+    
+    h3 {
+      color: var(--primary-dark);
+      margin-bottom: 15px;
+      font-weight: 600;
+      font-size: 1.4rem;
+    }
+    
+    p {
+      margin-bottom: 20px;
+      font-size: 1.05rem;
+      color: #4a4a4a;
+    }
+    
+    .highlight {
+      background-color: rgba(231, 76, 60, 0.1);
+      color: var(--accent);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .highlight::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--accent);
+      opacity: 0.6;
+    }
+    
+    .insight-box {
+      background-color: rgba(52, 152, 219, 0.05);
+      border-left: 4px solid var(--primary);
+      padding: 25px;
+      margin: 30px 0;
+      border-radius: 8px;
+      position: relative;
+    }
+    
+    .insight-box::before {
+      content: '\f0eb';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      top: -15px;
+      left: -15px;
+      background-color: var(--primary);
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Charts and data visualization */
+    .charts-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .chart-wrapper {
+      flex: 1;
+      min-width: 300px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      padding: 25px;
+      position: relative;
+      border: 1px solid var(--gray);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .chart-wrapper:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .tabs {
+      display: flex;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--gray);
+    }
+    
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-weight: 500;
+      color: var(--dark-gray);
+      position: relative;
+    }
+    
+    .tab.active {
+      color: var(--primary);
+    }
+    
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: var(--primary);
+    }
+    
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.6s ease;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Table styling */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 30px 0;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    
+    .comparison-table th, 
+    .comparison-table td {
+      padding: 15px 20px;
+      text-align: left;
+    }
+    
+    .comparison-table th {
+      background-color: rgba(52, 152, 219, 0.1);
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+    
+    .comparison-table tr:nth-child(even) {
+      background-color: rgba(236, 240, 241, 0.5);
+    }
+    
+    .comparison-table tr:hover {
+      background-color: rgba(52, 152, 219, 0.05);
+    }
+    
+    .comparison-table td {
+      border-bottom: 1px solid var(--gray);
+    }
+    
+    /* Features grid */
+    .hidden-victims-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+    
+    .victim-card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      padding: 30px 25px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-top: 5px solid var(--primary);
+    }
+    
+    .victim-card:nth-child(2) {
+      border-top-color: var(--secondary);
+    }
+    
+    .victim-card:nth-child(3) {
+      border-top-color: var(--warning);
+    }
+    
+    .victim-card:nth-child(4) {
+      border-top-color: var(--accent);
+    }
+    
+    .victim-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .victim-card .icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      display: inline-block;
+      position: relative;
+    }
+    
+    .victim-card .icon::after {
+      content: '';
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background-color: rgba(52, 152, 219, 0.2);
+      border-radius: 50%;
+      z-index: -1;
+      bottom: 5px;
+      right: -5px;
+    }
+    
+    /* Resource cards */
+    .resource-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .resource-card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      padding: 30px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid var(--gray);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .resource-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, transparent 60%, rgba(52, 152, 219, 0.1) 60%);
+    }
+    
+    .resource-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .resource-card h3 {
+      color: var(--primary);
+      margin-bottom: A-15px;
+    }
+    
+    .resource-card p {
+      font-size: 1rem;
+      margin-bottom: 20px;
+      color: #4a4a4a;
+    }
+    
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .tag {
+      display: inline-block;
+      background-color: var(--gray);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--dark);
+    }
+    
+    .tag-savings {
+      background-color: rgba(46, 204, 113, 0.2);
+      color: #27ae60;
+    }
+    
+    .tag-free {
+      background-color: rgba(52, 152, 219, 0.2);
+      color: #2980b9;
+    }
+    
+    .tag-immediate {
+      background-color: rgba(241, 196, 15, 0.2);
+      color: #f39c12;
+    }
+    
+    /* Button styling */
+    .btn {
+      display: inline-block;
+      background-color: var(--primary);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      font-size: 1rem;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.7s ease;
+      z-index: -1;
+    }
+    
+    .btn:hover {
+      background-color: var(--primary-dark);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    .btn:hover::before {
+      left: 100%;
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background-color: var(--secondary);
+    }
+    
+    .btn-secondary:hover {
+      background-color: #16a085;
+    }
+    
+    /* CTA box */
+    .cta-box {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 50px;
+      border-radius: 16px;
+      margin: 60px 0;
+      text-align: center;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      z-index: 0;
+      animation: pulse 15s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: translate(0%, 0%) rotate(0deg); }
+      50% { transform: translate(2%, 1%) rotate(180deg); }
+      100% { transform: translate(0%, 0%) rotate(360deg); }
+    }
+    
+    .cta-box h3 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: white;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .cta-box p {
+      margin-bottom: 30px;
+      opacity: 0.9;
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      color: white;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .cta-box .btn {
+      background-color: white;
+      color: var(--primary);
+      font-weight: 600;
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .cta-box .btn:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+      transform: scale(1.05);
+    }
+    
+    /* Interactive calculator */
+    .calculator {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      padding: 30px;
+      margin-top: 30px;
+    }
+    
+    .calculator-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .form-group {
+      margin-bottom: 10px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid var(--gray);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      color: var(--dark);
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+    
+    .range-slider {
+      width: 100%;
+      margin-top: 10px;
+    }
+    
+    .calculator-results {
+      background-color: rgba(52, 152, 219, 0.05);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--gray);
+    }
+    
+    .result-row:last-child {
+      border-bottom: none;
+    }
+    
+    .result-label {
+      font-weight: 500;
+    }
+    
+    .result-value {
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+    
+    .savings {
+      color: var(--success);
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      position: relative;
+      overflow: hidden;
+      padding: 20px 0;
+    }
+    
+    .testimonial-slide {
+      display: none;
+      padding: 30px;
+      text-align: center;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    .testimonial-slide.active {
+      display: block;
+    }
+    
+    .testimonial-slide img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 20px;
+      border: 3px solid white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .testimonial-slide p {
+      font-size: 1.1rem;
+      font-style: italic;
+      max-width: 800px;
+      margin: 0 auto 20px;
+    }
+    
+    .testimonial-author {
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+    
+    .testimonial-role {
+      font-size: 0.9rem;
+      color: var(--dark-gray);
+    }
+    
+    .testimonial-indicators {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 10px;
+    }
+    
+    .indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: var(--gray);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .indicator.active {
+      background-color: var(--primary);
+    }
+    
+    /* FAQ Section */
+    .faq-container {
+      margin-top: 30px;
+    }
+    
+    .faq-item {
+      margin-bottom: 15px;
+      border: 1px solid var(--gray);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .faq-question {
+      background-color: white;
+      padding: 15px 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+    
+    .faq-question:hover {
+      background-color: rgba(52, 152, 219, 0.05);
+    }
+    
+    .faq-question i {
+      transition: transform 0.3s ease;
+    }
+    
+    .faq-item.active .faq-question i {
+      transform: rotate(180deg);
+    }
+    
+    .faq-answer {
+      background-color: rgba(52, 152, 219, 0.05);
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .faq-item.active .faq-answer {
+      padding: 20px;
+      max-height: 500px;
+    }
+    
+    /* Newsletter signup */
+    .newsletter {
+      display: flex;
+      margin-top: 30px;
+      gap: 15px;
+    }
+    
+    .newsletter input {
+      flex: 1;
+      padding: 12px 20px;
+      border: 1px solid var(--gray);
+      border-radius: 30px;
+      font-size: 1rem;
+    }
+    
+    .newsletter input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+    
+    /* Social sharing */
+    .social-share {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+    
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      color: white;
+      font-size: 1.1rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .social-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .social-facebook {
+      background-color: #3b5998;
+    }
+    
+    .social-twitter {
+      background-color: #1da1f2;
+    }
+    
+    .social-linkedin {
+      background-color: #0077b5;
+    }
+    
+    .social-email {
+      background-color: #ea4335;
+    }
+    
+    /* Footer styling */
+    
+    footer {
+      background-color: var(--dark);
+      color: white;
+      padding: 60px 0 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    
+    .footer-section h3 {
+      color: white;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .footer-section h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background-color: var(--primary);
+    }
+    
+    .footer-section p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.95rem;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+    }
+    
+    .footer-links a i {
+      margin-right: 8px;
+      color: var(--primary);
+      font-size: 0.8rem;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+    }
+    
+    .disclaimer {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin-top: 40px;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Back to top button */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 99;
+    }
+    
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .back-to-top:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-5px);
+    }
+    
+    /* Toast notifications */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background-color: var(--dark);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+    
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    
+    .toast i {
+      margin-right: 10px;
+      color: var(--success);
+    }
+    
+    /* Responsive design */
+    @media (max-width: 992px) {
+      .calculator-inputs {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      header {
+        padding: 80px 0 40px;
+      }
+      
+      header h1 {
+        font-size: 2.5rem;
+      }
+      
+      .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 400px;
+        height: 100vh;
+        background-color: white;
+        flex-direction: column;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        transition: right 0.3s ease;
+        z-index: 110;
+      }
+      
+      .nav-menu.active {
+        right: 0;
+      }
+      
+      .nav-menu li a {
+        padding: 20px 30px;
+        border-bottom: 1px solid var(--gray);
+      }
+      
+      .mobile-toggle {
+        display: block;
+      }
+      
+      .close-menu {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+      
+      section {
+        padding: 25px;
+      }
+      
+      .stat-box {
+        min-width: 100%;
+        padding: 20px;
+      }
+      
+      .chart-wrapper {
+        min-width: 100%;
+      }
+      
+      .cta-box {
+        padding: 30px;
+      }
+      
+      .cta-box h3 {
+        font-size: 1.5rem;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      
+      header p {
+        font-size: 1.1rem;
+      }
+      
+      .header-stats {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .stat-box {
+        padding: 15px;
+      }
+      
+      .stat-box .number {
+        font-size: 2.2rem;
+      }
+      
+      .testimonial-slide p {
+        font-size: 1rem;
+      }
+      
+      .newsletter {
+        flex-direction: column;
+      }
+      
+      section {
+        padding: 20px;
+      }
+    }
+    <style>
+  .chart-wrapper.pie-chart-container {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .testimonial-image-container {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #f5f5f5; /* Fallback color if image fails to load */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .testimonial-image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <h1>Eye<span></span>Savings</h1>
+        <p>Millions are suffering in silence – unable to afford the relief they desperately need</p>
+        <div class="header-stats">
+          <div class="stat-box" data-aos="fade-up" data-aos-delay="100">
+            <div class="number" id="stat1">34M</div>
+            <div class="label">Americans with Dry Eyes</div>
+          </div>
+          <div class="stat-box" data-aos="fade-up" data-aos-delay="200">
+            <div class="number" id="stat2">48%</div>
+            <div class="label">Skip Treatment Due to Cost</div>
+          </div>
+          <div class="stat-box" data-aos="fade-up" data-aos-delay="300">
+            <div class="number" id="stat3">800K%</div>
+            <div class="label">Markup on Eye Drop Ingredients</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="container">
+      <div class="nav-container">
+        <a href="#" class="logo"><i class="fas fa-eye"></i> EyeSavings</a>
+        <button class="mobile-toggle" id="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-menu" id="nav-menu">
+          <!-- X icon removed completely -->
+          <li><a href="#human-cost">Human Cost</a></li>
+          <li><a href="#price-comparison">Price Reality</a></li>
+          <li><a href="#hidden-victims">Hidden Victims</a></li>
+          <li><a href="#resources">Finding Help</a></li>
+          <li><a href="#calculator">Savings Calculator</a></li>
+          <li><a href="#faqs">FAQs</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section id="human-cost" data-aos="fade-up">
+      <h2><i class="fas fa-heart-broken"></i> The Human Cost of Unaffordable Eye Care</h2>
+      <p>
+        Every day, millions of Americans suffer from the burning, itching, and blurred vision of dry eye syndrome. For many, a small bottle of eye drops is the only hope for relief. Yet, despite costing just pennies to produce, these 15ml bottles are sold for $16, putting much-needed relief out of reach.
+      </p>
+      <p>
+        According to recent surveys, approximately <span class="highlight">48% of dry eye sufferers</span> report skipping or rationing their eye drops due to cost concerns. When left untreated, dry eye syndrome can cause the surface of the cornea to deteriorate, leading to painful, persistent ulcers and infections. Over time, this damage can trigger extensive scarring and inflammation, which can lead to permanent vision loss or blindness.
+      </p>
+
+      <!-- Testimonials -->
+      <div class="testimonials" data-aos="fade-up">
+        <div class="testimonial-slide active">
+          <p>"I have to decide between my eye drops and groceries some months. The burning sensation is unbearable, but so is hunger. Why should I have to choose?"</p>
+          <div class="testimonial-author">Maria J.</div>
+          <div class="testimonial-role">Retired Teacher, 68</div>
+        </div>
+        <div class="testimonial-slide">
+          <p>"I work at a computer all day, and my eyes get so dry they hurt. But $16 every two weeks adds up fast when you're supporting a family."</p>
+          <div class="testimonial-author">James T.</div>
+          <div class="testimonial-role">IT Professional, 42</div>
+        </div>
+        <div class="testimonial-slide">
+          <p>"As a student, I can't afford to keep buying eye drops. I've started limiting my screen time instead, which affects my studies."</p>
+          <div class="testimonial-author">Sarah M.</div>
+          <div class="testimonial-role">College Student, 22</div>
+        </div>
+        <div class="testimonial-indicators">
+          <span class="indicator active" data-slide="0"></span>
+          <span class="indicator" data-slide="1"></span>
+          <span class="indicator" data-slide="2"></span>
+        </div>
+      </div>
+    </section>
+
+    <section id="price-comparison" data-aos="fade-up">
+      <h2><i class="fas fa-tags"></i> The Shocking Reality of Eye Drop Pricing</h2>
+      <p>
+        The price you pay for eye drops has almost nothing to do with what they cost to make. A 15ml bottle of Refresh Tears retails for around $16, while the actual ingredients cost approximately <span class="highlight">$0.002</span> — just two-tenths of a penny.
+      </p>
+      
+      <div class="tabs">
+        <button class="tab active" data-tab="chart">Price Chart</button>
+        <button class="tab" data-tab="pie">Cost Breakdown</button>
+        <button class="tab" data-tab="comparison">Market Comparison</button>
+      </div>
+      
+      <div class="tab-content active" id="chart-content">
+        <div class="chart-wrapper" data-aos="fade-up">
+          <h3>The True Cost Breakdown of Eye Drops</h3>
+          <canvas id="eyeDropsChart"></canvas>
+        </div>
+      </div>
+      
+      <div class="tab-content" id="pie-content">
+        <div class="chart-wrapper pie-chart-container" data-aos="fade-up">
+          <h3>Where Your Money Goes</h3>
+          <canvas id="pieChart"></canvas>
+        </div>
+      </div>
+      
+      <div class="tab-content" id="comparison-content">
+        <div class="chart-wrapper" data-aos="fade-up">
+          <h3>Markup Comparison to Other Products</h3>
+          <canvas id="comparisonChart"></canvas>
+        </div>
+      </div>
+      
+      <div class="insight-box" data-aos="fade-up">
+        <h3>The Markup Reality</h3>
+        <p>
+          Comparing the manufacturing cost ($0.002) to the retail price ($16) reveals a markup of <span class="highlight">800,000%</span>. Even with additional costs like packaging and distribution, this margin is extraordinary.
+        </p>
+        <p>
+          For perspective, insulin production costs around $2–$4 while retail prices exceed $250, representing a markup of 6,000–12,000%.
+        </p>
+      </div>
+      
+      <div class="comparison-table" data-aos="fade-up">
+        <table>
+          <thead>
+            <tr>
+              <th>Stage</th>
+              <th>Cost</th>
+              <th>What This Means</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Manufacturing Cost</td>
+              <td>$0.002</td>
+              <td>The raw ingredients cost just two-tenths of a penny</td>
+            </tr>
+            <tr>
+              <td>Wholesale Price</td>
+              <td>$1-2</td>
+              <td>What pharmacies pay to stock the product</td>
+            </tr>
+            <tr>
+              <td>Retail Price</td>
+              <td>$16</td>
+              <td>What patients pay without discounts</td>
+            </tr>
+            <tr>
+              <td>Coupon Price</td>
+              <td>$2.55</td>
+              <td>What's possible with discount programs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        With discount coupons, the same bottle that normally costs $16 can drop to as little as $2.55, exposing the vast margin built into the standard price.
+      </p>
+    </section>
+    
+    <section id="hidden-victims" data-aos="fade-up">
+      <h2><i class="fas fa-user-shield"></i> The Hidden Victims of Eye Drop Pricing</h2>
+      <p>
+        Behind the statistics are communities disproportionately affected by unaffordable eye care:
+      </p>
+      <div class="hidden-victims-grid">
+        <div class="victim-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="icon">👵</div>
+          <h3>Seniors on Fixed Incomes</h3>
+          <p>
+            Many elderly individuals on Social Security must choose between purchasing eye drops or other necessities like food or heating.
+          </p>
+        </div>
+        <div class="victim-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="icon">💻</div>
+          <h3>Office Workers</h3>
+          <p>
+            People working long hours on screens develop dry eye, affecting their productivity, job satisfaction, and overall well-being.
+          </p>
+        </div>
+        <div class="victim-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="icon">🏭</div>
+          <h3>Factory & Service Workers</h3>
+          <p>
+            Workers in dusty or dry environments often need eye drops the most, yet many are unable to afford them.
+          </p>
+        </div>
+        <div class="victim-card" data-aos="fade-up" data-aos-delay="400">
+          <div class="icon">🧠</div>
+          <h3>Students</h3>
+          <p>
+            Young adults with limited incomes face barriers to proper eye care, as dry eye syndrome rates in students rise with the introduction of tech to teach and assign homework by schools.
+          </p>
+        </div>
+      </div>
+    </section>
+    
+    <section id="calculator" data-aos="fade-up">
+      <h2><i class="fas fa-calculator"></i> Eye Drop Savings Calculator</h2>
+      <p>
+        Find out how much you could be saving on your eye drop purchases with this interactive calculator.
+      </p>
+      
+      <div class="calculator">
+        <div class="calculator-inputs">
+          <div>
+            <div class="form-group">
+              <label for="current-price">Current price you pay ($):</label>
+              <input type="number" id="current-price" class="form-control" value="16" min="1" max="50">
+            </div>
+            <div class="form-group">
+              <label for="bottles-per-month">Bottles used per month:</label>
+              <input type="number" id="bottles-per-month" class="form-control" value="1" min="0.5" max="10" step="0.5">
+            </div>
+          </div>
+          <div>
+            <div class="form-group">
+              <label for="coupon-price">Price with coupon ($):</label>
+              <input type="number" id="coupon-price" class="form-control" value="2.55" min="1" max="20">
+            </div>
+            <div class="form-group">
+              <label for="generic-price">Generic option price ($):</label>
+              <input type="number" id="generic-price" class="form-control" value="9.99" min="1" max="20">
+            </div>
+          </div>
+        </div>
+        
+        <div class="calculator-results">
+          <div class="result-row">
+            <div class="result-label">Current annual cost:</div>
+            <div class="result-value" id="annual-cost">$192.00</div>
+          </div>
+          <div class="result-row">
+            <div class="result-label">Annual cost with coupons:</div>
+            <div class="result-value" id="coupon-annual-cost">$30.60</div>
+          </div>
+          <div class="result-row">
+            <div class="result-label">Annual cost with generic options:</div>
+            <div class="result-value" id="generic-annual-cost">$119.88</div>
+          </div>
+          <div class="result-row">
+            <div class="result-label">Potential annual savings with coupons:</div>
+            <div class="result-value savings" id="coupon-savings">$161.40</div>
+          </div>
+          <div class="result-row">
+            <div class="result-label">Potential annual savings with generic:</div>
+            <div class="result-value savings" id="generic-savings">$72.12</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="resources" data-aos="fade-up">
+      <h2><i class="fas fa-hands-helping"></i> Finding Help: Resources for Affordable Eye Care</h2>
+      <p>
+        No one should have to choose between relief and essentials. Here are some resources to make eye drops more affordable:
+      </p>
+      <div class="resource-cards">
+        <div class="resource-card" data-aos="fade-up" data-aos-delay="100">
+          <h3>Generic & Store Brands</h3>
+          <p>
+            Look for the same active ingredients (like carboxymethylcellulose or glycerin) in generic brands that cost 30–60% less.
+          </p>
+          <div class="tags">
+            <span class="tag tag-savings">Savings: 30–60%</span>
+            <span class="tag tag-immediate">Immediate Solution</span>
+          </div>
+          
+        </div>
+        <div class="resource-card" data-aos="fade-up" data-aos-delay="200">
+          <h3>Discount Coupons</h3>
+          <p>
+            Use sites like GoodRx to reduce a $16 bottle to as little as $2.55.
+          </p>
+          <div class="tags">
+            <span class="tag tag-savings">Savings: 50–80%</span>
+          </div>
+          <a href="https://www.goodrx.com" class="btn" target="_blank">GoodRx Coupons</a>
+        </div>
+        <div class="resource-card" data-aos="fade-up" data-aos-delay="300">
+          <h3>Doctor Samples</h3>
+          <p>
+            Ask your doctor about available samples for patients with cost concerns.
+          </p>
+          <div class="tags">
+            <span class="tag tag-free">Free Option</span>
+          </div>
+          
+        </div>
+        <div class="resource-card" data-aos="fade-up" data-aos-delay="400">
+          <h3>Patient Assistance</h3>
+          <p>
+            Pharmaceutical companies offer programs for low-income patients to receive medications at reduced or no cost.
+          </p>
+          <div class="tags">
+            <span class="tag">Income-Based</span>
+            <span class="tag tag-savings">Significant Savings</span>
+          </div>
+          <a href="https://www.abbvieeyecare.com/patientcareresources/patient-assistance" class="btn" target="_blank">Apply Here</a>
+        </div>
+      </div>
+      
+      <div class="cta-box" data-aos="fade-up">
+        <h3>No One Should Suffer Due to Cost</h3>
+        <p>
+          Together, we can raise awareness and push for more affordable eye care.
+        </p>
+        <a href="#" class="btn" id="share-btn">Share This Information</a>
+        <div class="social-share" id="social-share" style="display: none;">
+          <a href="#" class="social-btn social-facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-btn social-twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-btn social-linkedin"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="social-btn social-email"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </section>
+    
+    <section id="faqs" data-aos="fade-up">
+      <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+      <p>
+        Get answers to common questions about eye drops and affordable alternatives.
+      </p>
+      
+      <div class="faq-container">
+        <div class="faq-item">
+          <div class="faq-question">
+            Why are eye drops so expensive? <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Eye drops have high prices due to several factors including pharmaceutical companies' marketing costs, research and development investments, and pricing strategies designed to maximize profit. However, the actual manufacturing cost is extremely low compared to the retail price, suggesting that pricing is primarily driven by market factors rather than production costs.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            Are generic eye drops as effective as brand name? <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Yes, generic eye drops with the same active ingredients as brand-name products are generally equally effective. The FDA requires generic medications to have the same active ingredients, strength, and dosage form as their brand-name counterparts. Always check the active ingredient list to ensure you're getting the appropriate type for your condition.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            How can I make my eye drops last longer? <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>To extend the life of your eye drops:</p>
+            <ul>
+              <li>Store them properly according to package instructions</li>
+              <li>Be careful not to touch the tip to avoid contamination</li>
+              <li>Use only the recommended dosage</li>
+              <li>Try preservative-free single-dose units if you only need occasional relief</li>
+              <li>Consider environmental factors that may be contributing to dry eyes, such as screen time, dry air, or ceiling fans</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            What are natural alternatives to eye drops? <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>While not always as immediately effective as commercial eye drops, some natural approaches to eye comfort include:</p>
+            <ul>
+              <li>Staying well-hydrated throughout the day</li>
+              <li>Using a humidifier in dry environments</li>
+              <li>Taking regular breaks from screens (follow the 20-20-20 rule: every 20 minutes, look at something 20 feet away for 20 seconds)</li>
+              <li>Applying warm compresses for MGD (Meibomian Gland Dysfunction)</li>
+              <li>Consuming omega-3 fatty acids, which may help with tear production</li>
+            </ul>
+            <p>Always consult with your eye care professional before replacing prescribed treatments.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="newsletter-section" data-aos="fade-up">
+        <h3>Stay Updated on Eye Care Affordability</h3>
+        <p>Sign up to receive the latest news, resources, and support opportunities.</p>
+        <form class="newsletter">
+          <input type="email" placeholder="Your email address" required>
+          <button type="submit" class="btn btn-secondary">Subscribe</button>
+        </form>
+      </div>
+    </section>
+    
+    <p class="disclaimer" data-aos="fade-up">Disclaimer: Pricing data is based on research as of February 2025. Actual prices may vary by location, pharmacy, and over time. This information is provided for educational purposes only and is not medical advice.</p>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>About EyeSavings</h3>
+          <p>A project dedicated to healthcare pricing transparency and affordability. We believe essential medications should be accessible to everyone who needs them.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="#human-cost"><i class="fas fa-angle-right"></i> Human Cost</a></li>
+            <li><a href="#price-comparison"><i class="fas fa-angle-right"></i> Price Reality</a></li>
+            <li><a href="#hidden-victims"><i class="fas fa-angle-right"></i> Hidden Victims</a></li>
+            <li><a href="#resources"><i class="fas fa-angle-right"></i> Finding Help</a></li>
+            <li><a href="#calculator"><i class="fas fa-angle-right"></i> Savings Calculator</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <ul class="footer-links">
+            <li><a href="mailto:info@EyeSavings.org"><i class="fas fa-envelope"></i> flowersseeyourfuture@gmail.com</a></li>
+            <li><a href="#"><i class="fas fa-phone"></i> (408) 780-4476</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>EyeSavings Awareness Platform &copy; 2025</p>
+        <p>A project dedicated to healthcare pricing transparency and affordability</p>
+      </div>
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top" id="back-to-top">
+    <i class="fas fa-chevron-up"></i>
+  </a>
+  
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toast-message">Successfully copied to clipboard!</span>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize AOS animation library
+      AOS.init({
+        duration: 800,
+        easing: 'ease',
+        once: true,
+        offset: 100
+      });
+      
+      // Main navigation functionality
+      const mobileToggle = document.getElementById('mobile-toggle');
+      const navMenu = document.getElementById('nav-menu');
+      
+      mobileToggle.addEventListener('click', function() {
+        navMenu.classList.add('active');
+      });
+
+      
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          if (this.getAttribute('href') !== '#') {
+            e.preventDefault();
+            
+            const target = document.querySelector(this.getAttribute('href'));
+            
+            if (target) {
+              navMenu.classList.remove('active');
+              
+              window.scrollTo({
+                top: target.offsetTop - 80,
+                behavior: 'smooth'
+              });
+            }
+          }
+        });
+      });
+      
+      // Back to top button
+      const backToTop = document.getElementById('back-to-top');
+      
+      window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+          backToTop.classList.add('visible');
+        } else {
+          backToTop.classList.remove('visible');
+        }
+      });
+      
+      backToTop.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+      
+      // Tabbed content
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Remove active class from all tabs
+          tabs.forEach(t => t.classList.remove('active'));
+          
+          // Add active class to clicked tab
+          this.classList.add('active');
+          
+          // Hide all tab content
+          document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+          });
+          
+          // Show the corresponding tab content
+          const tabContent = document.getElementById(`${this.dataset.tab}-content`);
+          if (tabContent) {
+            tabContent.classList.add('active');
+          }
+        });
+      });
+      
+      // FAQ Accordion
+      const faqQuestions = document.querySelectorAll('.faq-question');
+      
+      faqQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+          const faqItem = this.parentElement;
+          
+          // Toggle the active class on the FAQ item
+          faqItem.classList.toggle('active');
+        });
+      });
+      
+      // Testimonial Carousel
+      const testimonialSlides = document.querySelectorAll('.testimonial-slide');
+      const indicators = document.querySelectorAll('.indicator');
+      let currentSlide = 0;
+      
+      // Set initial state
+      updateTestimonialSlide();
+      
+      // Auto advance slides every 6 seconds
+      setInterval(nextTestimonialSlide, 6000);
+      
+      // Indicator click handlers
+      indicators.forEach(indicator => {
+        indicator.addEventListener('click', function() {
+          currentSlide = parseInt(this.dataset.slide);
+          updateTestimonialSlide();
+        });
+      });
+      
+      function nextTestimonialSlide() {
+        currentSlide = (currentSlide + 1) % testimonialSlides.length;
+        updateTestimonialSlide();
+      }
+      
+      function updateTestimonialSlide() {
+        // Hide all slides
+        testimonialSlides.forEach(slide => {
+          slide.classList.remove('active');
+        });
+        
+        // Remove active from all indicators
+        indicators.forEach(indicator => {
+          indicator.classList.remove('active');
+        });
+        
+        // Show current slide and indicator
+        testimonialSlides[currentSlide].classList.add('active');
+        indicators[currentSlide].classList.add('active');
+      }
+      
+      // Interactive calculation for the savings calculator
+      const currentPriceInput = document.getElementById('current-price');
+      const bottlesPerMonthInput = document.getElementById('bottles-per-month');
+      const couponPriceInput = document.getElementById('coupon-price');
+      const genericPriceInput = document.getElementById('generic-price');
+      
+      const annualCostOutput = document.getElementById('annual-cost');
+      const couponAnnualCostOutput = document.getElementById('coupon-annual-cost');
+      const genericAnnualCostOutput = document.getElementById('generic-annual-cost');
+      const couponSavingsOutput = document.getElementById('coupon-savings');
+      const genericSavingsOutput = document.getElementById('generic-savings');
+      
+      // Initial calculation
+      calculateSavings();
+      
+      // Add event listeners to inputs
+      [currentPriceInput, bottlesPerMonthInput, couponPriceInput, genericPriceInput].forEach(input => {
+        input.addEventListener('input', calculateSavings);
+      });
+      
+      function calculateSavings() {
+        const currentPrice = parseFloat(currentPriceInput.value);
+        const bottlesPerMonth = parseFloat(bottlesPerMonthInput.value);
+        const couponPrice = parseFloat(couponPriceInput.value);
+        const genericPrice = parseFloat(genericPriceInput.value);
+        
+        // Calculate annual costs
+        const annualCost = currentPrice * bottlesPerMonth * 12;
+        const couponAnnualCost = couponPrice * bottlesPerMonth * 12;
+        const genericAnnualCost = genericPrice * bottlesPerMonth * 12;
+        
+        // Calculate savings
+        const couponSavings = annualCost - couponAnnualCost;
+        const genericSavings = annualCost - genericAnnualCost;
+        
+        // Update the DOM
+        annualCostOutput.textContent = `$${annualCost.toFixed(2)}`;
+        couponAnnualCostOutput.textContent = `$${couponAnnualCost.toFixed(2)}`;
+        genericAnnualCostOutput.textContent = `$${genericAnnualCost.toFixed(2)}`;
+        couponSavingsOutput.textContent = `$${couponSavings.toFixed(2)}`;
+        genericSavingsOutput.textContent = `$${genericSavings.toFixed(2)}`;
+      }
+      
+      // Share button functionality
+      const shareBtn = document.getElementById('share-btn');
+      const socialShare = document.getElementById('social-share');
+      
+      shareBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        if (socialShare.style.display === 'none' || socialShare.style.display === '') {
+          socialShare.style.display = 'flex';
+        } else {
+          socialShare.style.display = 'none';
+        }
+      });
+      
+      // Toast notification function
+      function showToast(message) {
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        
+        toastMessage.textContent = message;
+        toast.classList.add('show');
+        
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3000);
+      }
+      
+      // Example button handlers
+      //document.getElementById('generic-brands-btn').addEventListener('click', function() {
+      //  showToast('Generic options list opened in a new tab');
+      //});
+      
+      //document.getElementById('doctor-tips-btn').addEventListener('click', function() {
+      //  showToast('Doctor request tips downloaded');
+      //});
+      
+      // Social sharing buttons
+      document.querySelectorAll('.social-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          showToast('Sharing options opened');
+        });
+      });
+      
+      // Newsletter form
+      document.querySelector('.newsletter').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = this.querySelector('input[type="email"]').value;
+        
+        if (email) {
+          showToast('Thank you for subscribing!');
+          this.reset();
+        }
+      });
+      
+      // Animated counters for statistics
+      const countUpOptions = {
+        useEasing: true,
+        useGrouping: true,
+        separator: ',',
+        decimal: '.',
+      };
+      
+      // Wait for elements to be in viewport
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const target = entry.target;
+            
+            if (target.id === 'stat1') {
+              const countUp = new CountUp('stat1', 0, 34, 0, 2.5, {
+                ...countUpOptions,
+                suffix: 'M'
+              });
+              countUp.start();
+            }
+            else if (target.id === 'stat2') {
+              const countUp = new CountUp('stat2', 0, 48, 0, 2.5, {
+                ...countUpOptions,
+                suffix: '%'
+              });
+              countUp.start();
+            }
+            else if (target.id === 'stat3') {
+              const countUp = new CountUp('stat3', 0, 800, 0, 2.5, {
+                ...countUpOptions,
+                suffix: 'K%'
+              });
+              countUp.start();
+            }
+            
+            observer.unobserve(target);
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      document.querySelectorAll('.number').forEach(stat => {
+        observer.observe(stat);
+      });
+      
+      // Charts
+      const eyeDropsCtx = document.getElementById('eyeDropsChart').getContext('2d');
+      const eyeDropsChart = new Chart(eyeDropsCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Manufacturing Cost', 'Wholesale Price', 'Retail Price', 'With Coupon'],
+          datasets: [{
+            label: 'Cost in USD',
+            data: [0.002, 1.5, 16, 2.55],
+            backgroundColor: [
+              'rgba(46, 204, 113, 0.7)',
+              'rgba(52, 152, 219, 0.7)',
+              'rgba(231, 76, 60, 0.7)',
+              'rgba(241, 196, 15, 0.7)'
+            ],
+            borderColor: [
+              'rgba(46, 204, 113, 1)',
+              'rgba(52, 152, 219, 1)',
+              'rgba(231, 76, 60, 1)',
+              'rgba(241, 196, 15, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Price (USD)'
+              },
+              ticks: {
+                callback: function(value) {
+                  return '$' + value;
+                }
+              }
+            }
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `$${context.raw}`;
+                }
+              }
+            },
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+      
+      // Pie chart
+      const pieCtx = document.getElementById('pieChart').getContext('2d');
+      const pieChart = new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+          labels: ['Manufacturing', 'Packaging', 'Marketing', 'Distribution', 'R&D', 'Profit'],
+          datasets: [{
+            data: [0.1, 5, 15, 10, 10, 59.9],
+            backgroundColor: [
+              'rgba(46, 204, 113, 0.7)',
+              'rgba(52, 152, 219, 0.7)',
+              'rgba(155, 89, 182, 0.7)',
+              'rgba(241, 196, 15, 0.7)',
+              'rgba(230, 126, 34, 0.7)',
+              'rgba(231, 76, 60, 0.7)'
+            ],
+            borderColor: [
+              'rgba(46, 204, 113, 1)',
+              'rgba(52, 152, 219, 1)',
+              'rgba(155, 89, 182, 1)',
+              'rgba(241, 196, 15, 1)',
+              'rgba(230, 126, 34, 1)',
+              'rgba(231, 76, 60, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          aspectRatio: 1.8, 
+          plugins: {
+            legend: {
+              position: 'right', // Move legend to the right to save vertical space
+              labels: {
+                boxWidth: 10, // Smaller color boxes in legend
+                padding: 6 // Less padding between legend items
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `${context.label}: ${context.raw}%`;
+                }
+              }
+            }
+          }
+        }
+      });
+      
+      // Comparison chart
+      const comparisonCtx = document.getElementById('comparisonChart').getContext('2d');
+      const comparisonChart = new Chart(comparisonCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Eye Drops', 'Insulin', 'Pain Medication', 'Avg. Consumer Product'],
+          datasets: [{
+            label: 'Markup Percentage',
+            data: [800000, 12000, 5000, 200],
+            backgroundColor: [
+              'rgba(231, 76, 60, 0.7)',
+              'rgba(52, 152, 219, 0.7)',
+              'rgba(155, 89, 182, 0.7)',
+              'rgba(46, 204, 113, 0.7)'
+            ],
+            borderColor: [
+              'rgba(231, 76, 60, 1)',
+              'rgba(52, 152, 219, 1)',
+              'rgba(155, 89, 182, 1)',
+              'rgba(46, 204, 113, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `Markup: ${context.raw}%`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Markup Percentage (%)'
+              }
+            }
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
